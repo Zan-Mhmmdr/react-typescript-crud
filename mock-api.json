@@ -1,10 +1,6 @@
 {
   "characters": [
     {
-      "id": "1",
-      "name": "Serie"
-    },
-    {
       "id": "2",
       "name": "Frieren"
     },
@@ -31,14 +27,6 @@
     {
       "id": "0ac4",
       "name": "Ukyo"
-    },
-    {
-      "id": "5db7",
-      "name": "Tachibana Hinata"
-    },
-    {
-      "id": "20",
-      "name": "Itoshi Sae"
     }
   ]
 }

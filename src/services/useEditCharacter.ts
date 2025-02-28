@@ -1,27 +1,33 @@
-import { AxiosInstance } from "axios";
-import { useState } from "react";
-import { axiosInstance } from "../lib/axios";
+import { useState } from "react"
+import { axiosInstance } from "../lib/axios"
 
-const useEditCharacter = () => {
-    const [isEditLoading, setIsEditLoading] = useState(false);
-    const [isEditCharacter, setIsEditCharacter] = useState("")
-    const [editError, setEditError] = useState("")
+export const useEditCharacter = () => {
+    const [editCharacterIsLoading, setEditCharacterIsLoading] = useState(false)
+    const [editCharacterError, setEditCharacterError] = useState("")
 
-    const handleEditCharacter = async (): Promise<void> => {
-        setIsEditLoading(true);
+
+    const editCharacter = async (characterID: string, payload: string) => {
         try {
-            const response = await axiosInstance.patch("characters")
-            const data = response.data
-            setIsEditCharacter(data)
+            setEditCharacterIsLoading(true)
+
+            // PATCH => MENGGANTI BEBERAPA FIELDS DALAM OBJECT/DATA/RECORD
+            // PUT => MENGGANTI KESELURUHAN OBJECT/DATA/RECORD
+
+
+            await axiosInstance.patch(`/characters/${characterID}`, {
+                name: payload,
+            })
         } catch (error) {
-            setEditError((error as TypeError).message)
+            setEditCharacterError((error as TypeError).message)
         } finally {
-            setIsEditLoading(false)
+            setEditCharacterIsLoading(false)
         }
     }
 
     return {
-        isEditCharacter,
-        handleEditCharacter,
+        editCharacterIsLoading,
+        editCharacterError,
+        editCharacter,
+        useEditCharacter
     }
 }
