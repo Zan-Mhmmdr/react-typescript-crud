@@ -4,7 +4,8 @@ import { axiosInstance } from "../lib/axios"
 
 type Characters = {
     id: string,
-    name: string
+    name: string,
+    job: string
 }
 
 export const useFetchCharacter = () => {
@@ -35,6 +36,8 @@ export const useFetchCharacter = () => {
         } finally {
             setIsLoading(false)
         }
+
+        
     }
 
     return {

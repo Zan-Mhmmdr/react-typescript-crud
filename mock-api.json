@@ -1,32 +1,24 @@
 {
   "characters": [
     {
-      "id": "2",
-      "name": "Frieren"
+      "id": "0aea",
+      "name": "Fern",
+      "job": "Student"
     },
     {
-      "id": "5e21",
-      "name": "Chinatsu senpai"
+      "id": "b283",
+      "name": "Frieren",
+      "job": "Software Engineer"
     },
     {
-      "id": "ac5c",
-      "name": "Hina"
+      "id": "2da2",
+      "name": "Ryuunosuke Hizuru",
+      "job": "Shadow Hunter"
     },
     {
-      "id": "82a6",
-      "name": "Sirius"
-    },
-    {
-      "id": "0bc3",
-      "name": "Xeno"
-    },
-    {
-      "id": "c463",
-      "name": "Senku"
-    },
-    {
-      "id": "0ac4",
-      "name": "Ukyo"
+      "id": "0ab9",
+      "name": "Ajiro Shinpei",
+      "job": "Time Leaper"
     }
   ]
 }

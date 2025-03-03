@@ -8,16 +8,26 @@ const EmployeesPage = () => {
     const { fetchCharacter, characters, characterError, isLoading } = useFetchCharacter()
     const { createCharacterError, createCharacterIsLoading, createCharacter } = useCreateCharacter()
     const { deleteCharacterIsLoading, deleteCharacter, deleteCharacterError } = useDeleteCharacter()
-    const { editCharacter } = useEditCharacter()
+    const { editCharacter, editCharacterError, editCharacterIsLoading } = useEditCharacter()
 
-    const [editInputTeks, setEditInputTeks] = useState("")
-    const [inputTeks, setInputTeks] = useState("")
+    const [editInputNameTeks, setEditInputNameTeks] = useState("")
+    const [editInputJobTeks, setEditInputJobTeks] = useState("")
+    const [inputCreateNameTeks, setInputCreateNameTeks] = useState("")
+    const [inputCreateJobTeks, setInputCreateJobTeks] = useState("")
     const [selectedCharacterId, setSelectedCharacterId] = useState("")
 
     const handleCreateCharacter = async () => {
-        await createCharacter(inputTeks);
+        if (inputCreateNameTeks === "") {
+            alert("Name cannot be empty!")
+            return
+          }
+        await createCharacter({
+            name: inputCreateNameTeks,
+            job: inputCreateJobTeks
+        });
         await fetchCharacter()
-        setInputTeks("")
+        setInputCreateNameTeks("")
+        setInputCreateJobTeks("")
     }
 
     const handleDeleteCharacter = async (characterId: string) => {
@@ -26,13 +36,22 @@ const EmployeesPage = () => {
     }
 
     const handleEditCharacter = async () => {
-        alert("Edited: " + selectedCharacterId)
+        if (editInputNameTeks && setSelectedCharacterId) {
+            setSelectedCharacterId("")
+            setEditInputNameTeks("")
+            setEditInputJobTeks("")
+        }
+        await editCharacter(selectedCharacterId, {
+            name: editInputNameTeks,
+            job: editInputJobTeks
+        })
+        await fetchCharacter()
     }
+
 
     return (
         <div>
             <h2>List Character: </h2>
-
             {
                 isLoading && <p>Loading...</p>
             }
@@ -50,6 +69,7 @@ const EmployeesPage = () => {
                     <tr>
                         <th>No</th>
                         <th>Name</th>
+                        <th>Job</th>
                         <th>Action</th>
                         <th>Select Edit</th>
                     </tr>
@@ -61,14 +81,20 @@ const EmployeesPage = () => {
                                 <tr key={character.id}>
                                     <td>{character.id}</td>
                                     <td>{character.name}</td>
+                                    <td>{character.job}</td>
                                     <td>
                                         <button onClick={() => handleDeleteCharacter(character.id)}>Delete</button>
-
                                     </td>
                                     <td>
                                         <input
-                                            type="radio" name='char-edit'
-                                            onChange={() => setSelectedCharacterId(character.id)} />
+                                            checked={character.id === selectedCharacterId}
+                                            type="radio"
+                                            name='char-edit'
+                                            onChange={() => {
+                                                setSelectedCharacterId(character.id);
+                                                setEditInputNameTeks(character.name);
+                                                setEditInputJobTeks(character.job)
+                                            }} />
                                     </td>
                                 </tr>
                             )
@@ -77,10 +103,18 @@ const EmployeesPage = () => {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colSpan={2}>
-                            <input onChange={(e) => setInputTeks(e.target.value)}
+                        <td></td>
+                        <td>
+                            <input onChange={(e) => setInputCreateNameTeks(e.target.value)}
                                 type="text"
-                                value={inputTeks} />
+                                value={inputCreateNameTeks}
+                                placeholder='Input name' />
+                        </td>
+                        <td>
+                            <input onChange={(e) => setInputCreateJobTeks(e.target.value)}
+                                type="text"
+                                value={inputCreateJobTeks} 
+                                placeholder='Input job'/>
                         </td>
                         <td>
                             <button
@@ -96,12 +130,25 @@ const EmployeesPage = () => {
                             </td>
                         </tr>
                     )}
-
                     <tr>
-                        <td colSpan={2}>
+                        <td></td>
+                        <td>
                             <input
-                                onChange={e => setEditInputTeks(e.target.value)}
-                                type="text" />
+                                disabled={editCharacterIsLoading}
+                                onChange={e => setEditInputNameTeks(e.target.value)}
+                                type="text"
+                                value={editInputNameTeks} 
+                                placeholder='Edit name'/>
+                        </td>
+                        <td>
+                            <input
+                                disabled={editCharacterIsLoading}
+                                onChange={(e) => {
+                                    setEditInputJobTeks(e.target.value)
+                                }}
+                                type="text"
+                                value={editInputJobTeks}
+                                placeholder='Edit job' />
                         </td>
                         <td>
                             <button onClick={handleEditCharacter}>Update Char</button>
@@ -116,8 +163,6 @@ const EmployeesPage = () => {
                     createCharacterError && <p style={{ color: "red" }}>{createCharacterError}</p>
                 }
             </table>
-
-
         </div>
     )
 }

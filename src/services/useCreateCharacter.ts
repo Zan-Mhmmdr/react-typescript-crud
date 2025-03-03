@@ -6,13 +6,18 @@ export const useCreateCharacter = () => {
     const [createCharacterError, setCreateCharacterError] = useState("")
 
 
-    const createCharacter = async (payLoad: string) => {
+    const createCharacter = async (payLoad: {
+        name: string,
+        job: string
+    }) => {
         try {
             setCreateCharacterIsLoading(true)
 
             await axiosInstance.post("/characters", {
-                name: payLoad,
-            })
+                name: payLoad.name ? payLoad.name : undefined,
+                job: payLoad.job ? payLoad.job : undefined
+            }
+            )
         } catch (error) {
             setCreateCharacterError((error as TypeError).message)
         } finally {
