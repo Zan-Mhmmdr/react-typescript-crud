@@ -1,33 +1,19 @@
-import { useState } from "react"
 import { axiosInstance } from "../lib/axios"
+import { useMutation } from "@tanstack/react-query"
 
 export const useCreateCharacter = () => {
-    const [createCharacterIsLoading, setCreateCharacterIsLoading] = useState(false)
-    const [createCharacterError, setCreateCharacterError] = useState("")
-
-
-    const createCharacter = async (payLoad: {
-        name: string,
-        job: string
-    }) => {
-        try {
-            setCreateCharacterIsLoading(true)
-
-            await axiosInstance.post("/characters", {
+    return useMutation({
+        mutationFn: async (payLoad: {
+            name: string,
+            job: string
+        }) => {
+            const responseCharacters = await axiosInstance.post("/characters", {
                 name: payLoad.name ? payLoad.name : undefined,
                 job: payLoad.job ? payLoad.job : undefined
-            }
-            )
-        } catch (error) {
-            setCreateCharacterError((error as TypeError).message)
-        } finally {
-            setCreateCharacterIsLoading(false)
+            })
+
+            return responseCharacters
         }
     }
-
-    return {
-        createCharacterIsLoading,
-        createCharacterError,
-        createCharacter
-    }
+    )
 }

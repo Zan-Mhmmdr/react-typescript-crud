@@ -4,9 +4,10 @@ import { useCreateCharacter } from '../services/useCreateCharacter'
 import { useDeleteCharacter } from '../services/useDeleteCharacter'
 import { useEditCharacter } from "../services/useEditCharacter"
 
+
 const EmployeesPage = () => {
-    const { fetchCharacter, characters, characterError, isLoading } = useFetchCharacter()
-    const { createCharacterError, createCharacterIsLoading, createCharacter } = useCreateCharacter()
+    const { isLoading, data, refetch } = useFetchCharacter()
+    const { mutate } = useCreateCharacter()
     const { deleteCharacterIsLoading, deleteCharacter, deleteCharacterError } = useDeleteCharacter()
     const { editCharacter, editCharacterError, editCharacterIsLoading } = useEditCharacter()
 
@@ -16,23 +17,51 @@ const EmployeesPage = () => {
     const [inputCreateJobTeks, setInputCreateJobTeks] = useState("")
     const [selectedCharacterId, setSelectedCharacterId] = useState("")
 
+
+    const renderCharacters = () => {
+        return data?.data.map((character) =>
+        (
+            <tr key={character.id}>
+                <td>{character.id}</td>
+                <td>{character.name}</td>
+                <td>{character.job}</td>
+                <td>
+                    <button onClick={() => handleDeleteCharacter(character.id)}>Delete</button>
+                </td>
+                <td>
+                    <input
+                        checked={character.id === selectedCharacterId}
+                        type="radio"
+                        name='char-edit'
+                        onChange={() => {
+                            setSelectedCharacterId(character.id);
+                            setEditInputNameTeks(character.name);
+                            setEditInputJobTeks(character.job)
+                        }} />
+                </td>
+            </tr>
+        )
+        )
+    }
+
     const handleCreateCharacter = async () => {
         if (inputCreateNameTeks === "") {
             alert("Name cannot be empty!")
             return
-          }
-        await createCharacter({
+        }
+        const newCharacter = {
             name: inputCreateNameTeks,
-            job: inputCreateJobTeks
-        });
-        await fetchCharacter()
+            job: inputCreateJobTeks,
+        };
+        mutate(newCharacter);  // Trigger the mutation
+        await refetch
         setInputCreateNameTeks("")
         setInputCreateJobTeks("")
     }
 
     const handleDeleteCharacter = async (characterId: string) => {
         await deleteCharacter(characterId)
-        await fetchCharacter()
+        await refetch
     }
 
     const handleEditCharacter = async () => {
@@ -45,24 +74,17 @@ const EmployeesPage = () => {
             name: editInputNameTeks,
             job: editInputJobTeks
         })
-        await fetchCharacter()
+        await refetch
     }
 
 
     return (
         <div>
             <h2>List Character: </h2>
-            {
-                isLoading && <p>Loading...</p>
-            }
-
-            {
-                characterError && <p style={{ color: "red" }}>{characterError}</p>
-            }
 
             <button style={{
                 marginTop: "20px"
-            }} disabled={isLoading} onClick={fetchCharacter}>Fetch Character</button>
+            }} disabled={isLoading} onClick={refetch}>Fetch Character</button>
 
             <table>
                 <thead>
@@ -76,29 +98,7 @@ const EmployeesPage = () => {
                 </thead>
                 <tbody>
                     {
-                        characters.map((character) => {
-                            return (
-                                <tr key={character.id}>
-                                    <td>{character.id}</td>
-                                    <td>{character.name}</td>
-                                    <td>{character.job}</td>
-                                    <td>
-                                        <button onClick={() => handleDeleteCharacter(character.id)}>Delete</button>
-                                    </td>
-                                    <td>
-                                        <input
-                                            checked={character.id === selectedCharacterId}
-                                            type="radio"
-                                            name='char-edit'
-                                            onChange={() => {
-                                                setSelectedCharacterId(character.id);
-                                                setEditInputNameTeks(character.name);
-                                                setEditInputJobTeks(character.job)
-                                            }} />
-                                    </td>
-                                </tr>
-                            )
-                        })
+                        renderCharacters()
                     }
                 </tbody>
                 <tfoot>
@@ -113,23 +113,16 @@ const EmployeesPage = () => {
                         <td>
                             <input onChange={(e) => setInputCreateJobTeks(e.target.value)}
                                 type="text"
-                                value={inputCreateJobTeks} 
-                                placeholder='Input job'/>
+                                value={inputCreateJobTeks}
+                                placeholder='Input job' />
                         </td>
                         <td>
                             <button
-                                disabled={createCharacterIsLoading}
                                 onClick={handleCreateCharacter}>Create Hero
                             </button>
                         </td>
                     </tr>
-                    {createCharacterError && (
-                        <tr>
-                            <td colSpan={3}>
-                                {createCharacterError}
-                            </td>
-                        </tr>
-                    )}
+
                     <tr>
                         <td></td>
                         <td>
@@ -137,8 +130,8 @@ const EmployeesPage = () => {
                                 disabled={editCharacterIsLoading}
                                 onChange={e => setEditInputNameTeks(e.target.value)}
                                 type="text"
-                                value={editInputNameTeks} 
-                                placeholder='Edit name'/>
+                                value={editInputNameTeks}
+                                placeholder='Edit name' />
                         </td>
                         <td>
                             <input
@@ -155,13 +148,8 @@ const EmployeesPage = () => {
                         </td>
                     </tr>
                 </tfoot>
-                {
-                    createCharacterIsLoading && <p>Loading...</p>
-                }
 
-                {
-                    createCharacterError && <p style={{ color: "red" }}>{createCharacterError}</p>
-                }
+
             </table>
         </div>
     )

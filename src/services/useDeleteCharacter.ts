@@ -14,7 +14,7 @@ export const useDeleteCharacter = () => {
         } finally {
             setDeleteCharacterIsLoading(false)
         }
-    }
+    } 
 
     return {
         deleteCharacterError,
