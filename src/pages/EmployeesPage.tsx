@@ -4,12 +4,11 @@ import { useCreateCharacter } from '../services/useCreateCharacter'
 import { useDeleteCharacter } from '../services/useDeleteCharacter'
 import { useEditCharacter } from "../services/useEditCharacter"
 
-
 const EmployeesPage = () => {
-    const { isLoading, data, refetch } = useFetchCharacter()
-    const { mutate } = useCreateCharacter()
-    const { deleteCharacterIsLoading, deleteCharacter, deleteCharacterError } = useDeleteCharacter()
-    const { editCharacter, editCharacterError, editCharacterIsLoading } = useEditCharacter()
+    const {  data, refetch } = useFetchCharacter()
+    const { mutate, } = useCreateCharacter()
+    const { mutate: deleteCharacter } = useDeleteCharacter()
+    const { mutate: mutateEdit } = useEditCharacter()
 
     const [editInputNameTeks, setEditInputNameTeks] = useState("")
     const [editInputJobTeks, setEditInputJobTeks] = useState("")
@@ -54,14 +53,13 @@ const EmployeesPage = () => {
             job: inputCreateJobTeks,
         };
         mutate(newCharacter);  // Trigger the mutation
-        await refetch
         setInputCreateNameTeks("")
         setInputCreateJobTeks("")
     }
 
     const handleDeleteCharacter = async (characterId: string) => {
         await deleteCharacter(characterId)
-        await refetch
+        refetch()
     }
 
     const handleEditCharacter = async () => {
@@ -70,11 +68,14 @@ const EmployeesPage = () => {
             setEditInputNameTeks("")
             setEditInputJobTeks("")
         }
-        await editCharacter(selectedCharacterId, {
-            name: editInputNameTeks,
-            job: editInputJobTeks
+        mutateEdit({
+            characterID: selectedCharacterId, // Rename selectedCharacterId to characterID
+            payload: {
+                name: editInputNameTeks,
+                job: editInputJobTeks
+            }
         })
-        await refetch
+        refetch()
     }
 
 
@@ -84,7 +85,7 @@ const EmployeesPage = () => {
 
             <button style={{
                 marginTop: "20px"
-            }} disabled={isLoading} onClick={refetch}>Fetch Character</button>
+            }} onClick={refetch}>Fetch Character</button>
 
             <table>
                 <thead>
@@ -127,7 +128,6 @@ const EmployeesPage = () => {
                         <td></td>
                         <td>
                             <input
-                                disabled={editCharacterIsLoading}
                                 onChange={e => setEditInputNameTeks(e.target.value)}
                                 type="text"
                                 value={editInputNameTeks}
@@ -135,7 +135,6 @@ const EmployeesPage = () => {
                         </td>
                         <td>
                             <input
-                                disabled={editCharacterIsLoading}
                                 onChange={(e) => {
                                     setEditInputJobTeks(e.target.value)
                                 }}
