@@ -8,7 +8,8 @@ export const useFetchCharacter = () => {
         queryFn: async () => {
             const responseCharacters = await axiosInstance.get('/characters')
 
-            return responseCharacters
+            const data = responseCharacters.data
+            return data
         },
     })
 }
