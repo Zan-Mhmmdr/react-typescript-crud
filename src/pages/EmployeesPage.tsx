@@ -5,7 +5,7 @@ import { useDeleteCharacter } from '../services/useDeleteCharacter'
 import { useEditCharacter } from "../services/useEditCharacter"
 
 const EmployeesPage = () => {
-    const {  data, refetch } = useFetchCharacter()
+    const { data, refetch } = useFetchCharacter()
     const { mutate, } = useCreateCharacter()
     const { mutate: deleteCharacter } = useDeleteCharacter()
     const { mutate: mutateEdit } = useEditCharacter()

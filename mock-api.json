@@ -1,24 +1,9 @@
 {
   "characters": [
     {
-      "id": "0aea",
-      "name": "Fern",
-      "job": "Student"
-    },
-    {
       "id": "9027",
       "name": "Frieren",
       "job": "Software Engineer"
-    },
-    {
-      "id": "e554",
-      "name": "Shinpei",
-      "job": "Data Analis"
-    },
-    {
-      "id": "1bfc",
-      "name": "Sasuke",
-      "job": "Genin Konoha"
     },
     {
       "id": "71dd",
@@ -26,9 +11,108 @@
       "job": "Hokage"
     },
     {
-      "id": "559e",
-      "name": "Kurokawa Akane",
-      "job": "Actress"
+      "id": "8a15",
+      "name": "Frieren",
+      "job": "Fronten Developer"
+    },
+    {
+      "id": "80e7"
+    },
+    {
+      "id": "338d"
+    },
+    {
+      "id": "3743"
+    },
+    {
+      "id": "9d1e"
+    },
+    {
+      "id": "7e28"
+    },
+    {
+      "id": "ece5"
+    },
+    {
+      "id": "d82d"
+    },
+    {
+      "id": "3beb"
+    },
+    {
+      "id": "ef40"
+    },
+    {
+      "id": "2bbe"
+    },
+    {
+      "id": "22d7"
+    },
+    {
+      "id": "d7f8"
+    },
+    {
+      "id": "55c2"
+    },
+    {
+      "id": "04e1"
+    },
+    {
+      "id": "69f6"
+    },
+    {
+      "id": "e810"
+    },
+    {
+      "id": "42c9"
+    },
+    {
+      "id": "01d6"
+    },
+    {
+      "id": "ebc2"
+    },
+    {
+      "id": "fca0"
+    },
+    {
+      "id": "5749"
+    },
+    {
+      "id": "9249"
+    },
+    {
+      "id": "8d28"
+    },
+    {
+      "id": "02e6"
+    },
+    {
+      "id": "674b"
+    },
+    {
+      "id": "34f5"
+    },
+    {
+      "id": "011f"
+    },
+    {
+      "id": "a03b"
+    },
+    {
+      "id": "3e40"
+    },
+    {
+      "id": "846a"
+    },
+    {
+      "id": "29fd"
+    },
+    {
+      "id": "6938"
+    },
+    {
+      "id": "f06b"
     }
   ]
 }
