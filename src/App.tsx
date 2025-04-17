@@ -7,7 +7,7 @@ import FormData from "./pages/FormData"
 import Component1 from "./components/Component1"
 import EmployeesPage from "./pages/EmployeesPage"
 
-function App() {
+const App = () => {
   return (
     <>
       <Routes>
