@@ -14,6 +14,21 @@
       "id": "e554",
       "name": "Shinpei",
       "job": "Data Analis"
+    },
+    {
+      "id": "1bfc",
+      "name": "Sasuke",
+      "job": "Genin Konoha"
+    },
+    {
+      "id": "71dd",
+      "name": "Naruto",
+      "job": "Hokage"
+    },
+    {
+      "id": "559e",
+      "name": "Kurokawa Akane",
+      "job": "Actress"
     }
   ]
 }
