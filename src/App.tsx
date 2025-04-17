@@ -7,7 +7,7 @@ import FormData from "./pages/FormData"
 import Component1 from "./components/Component1"
 import EmployeesPage from "./pages/EmployeesPage"
 
-// ini update-an baru
+
 const App = () => {
   return (
     <>
