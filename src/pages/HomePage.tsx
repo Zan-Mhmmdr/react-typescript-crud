@@ -33,6 +33,7 @@ const HomePage = () => {
         setAnimateModal(false)
         setTimeout(() => {
             setShowAddCharacter(false)
+            setShowEditCharacter(false)
         }, 300);
     }
 
@@ -47,6 +48,17 @@ const HomePage = () => {
             return
         }
     }
+
+    const handleEditCharacter = (character: FormData) => {
+        setEditData(character.id ? character : null)
+        setShowEditCharacter(true)
+        setTimeout(() => {
+            setAnimateModal(true)
+        }, 10);
+    }
+
+
+
 
     return (
         <>
@@ -69,7 +81,7 @@ const HomePage = () => {
                             <div className="flex flex-col space-y-4">
                                 <input type="text" name="name" placeholder="Name" className="p-2 border border-gray-300 rounded" />
                                 <input type="text" name="job" placeholder="Job" className="p-2 border border-gray-300 rounded" />
-                                <button type="submit" className="bg-black w-full text-white font-bold px-4 py-2 rounded">Submit</button>
+                                <button type="submit" className="bg-black w-full text-white font-bold px-4 py-2 rounded cursor-pointer">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -79,7 +91,7 @@ const HomePage = () => {
             {/* Modal buat konfirmasi delete */}
             {showDeleteCharacter && (
                 <div className={`fixed inset-0 z-30 bg-black/50 flex items-center justify-center transition-opacity duration-300 ${animateModal ? "opacity-100" : "opacity-0"} `}>
-                    <div className="bg-white rounded p-6 w-[90%] max-w-sm shadow-lg">
+                    <div className={`bg-white rounded p-6 w-[90%] max-w-sm shadow-lg transform transition-transform duration-300  ${animateModal ? "scale-100" : "scale-95"}`}>
                         <h2 className="text-xl font-bold mb-4">Yakin ingin menghapus?</h2>
                         <p className="text-gray-600 mb-6">Data yang dihapus tidak bisa dikembalikan.</p>
                         <div className="flex justify-end gap-4">
@@ -91,7 +103,7 @@ const HomePage = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    deleteCharacter(confirmDeleteId);
+                                    deleteCharacter(confirmDeleteId as string);
                                     setConfirmDeleteId(null);
                                 }}
                                 className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 cursor-pointer"
@@ -136,7 +148,7 @@ const HomePage = () => {
                                     placeholder="Job"
                                     className="p-2 border border-gray-300 rounded"
                                 />
-                                <button type="submit" className="bg-blue-600 w-full text-white font-bold px-4 py-2 rounded">Update</button>
+                                <button type="submit" className="bg-green-500 w-full text-white font-bold px-4 py-2 rounded">Update</button>
                             </div>
                         </form>
                     </div>
@@ -168,8 +180,10 @@ const HomePage = () => {
                                         <td className="px-4 py-2 border-b">{character.name}</td>
                                         <td className="px-4 py-2 border-b">{character.job}</td>
                                         <td className="px-4 py-2 border-b space-x-2 flex justify-center">
-                                            <button onClick={() => setShowEditCharacter(character.id)} className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-sm cursor-pointer">Edit</button>
-                                            <button onClick={() => handleShowModalDelete(character.id)} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm cursor-pointer">Hapus</button>
+                                            <button onClick={() => handleEditCharacter(character)} className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-sm cursor-pointer">Edit</button>
+                                            <button onClick={() => {
+                                                handleShowModalDelete(character.id)
+                                            }} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm cursor-pointer">Hapus</button>
                                         </td>
                                     </tr>
                                 ))}

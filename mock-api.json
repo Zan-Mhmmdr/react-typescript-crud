@@ -2,7 +2,7 @@
   "characters": [
     {
       "id": "9027",
-      "name": "Frieren",
+      "name": "Fern",
       "job": "Software Engineer"
     },
     {
@@ -14,6 +14,42 @@
       "id": "c021",
       "name": "Kurokawa Akane",
       "job": "Actress"
+    },
+    {
+      "id": "a7de"
+    },
+    {
+      "id": "62d5"
+    },
+    {
+      "id": "4949"
+    },
+    {
+      "id": "586f"
+    },
+    {
+      "id": "7096"
+    },
+    {
+      "id": "58fc"
+    },
+    {
+      "id": "7cb6"
+    },
+    {
+      "id": "e370"
+    },
+    {
+      "id": "b40f"
+    },
+    {
+      "id": "6b00"
+    },
+    {
+      "id": "ac79"
+    },
+    {
+      "id": "66c0"
     }
   ]
 }
