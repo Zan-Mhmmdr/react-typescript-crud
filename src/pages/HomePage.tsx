@@ -39,14 +39,10 @@ const HomePage = () => {
 
     const handleShowModalDelete = (id: string) => {
         setShowDeleteCharacter(true)
+        setConfirmDeleteId(id)
         setTimeout(() => {
             setAnimateModal(true)
         }, 10);
-
-        if (id) {
-            setConfirmDeleteId(id)
-            return
-        }
     }
 
     const handleEditCharacter = (character: FormData) => {
@@ -56,9 +52,6 @@ const HomePage = () => {
             setAnimateModal(true)
         }, 10);
     }
-
-
-
 
     return (
         <>

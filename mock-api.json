@@ -16,40 +16,59 @@
       "job": "Actress"
     },
     {
-      "id": "a7de"
+      "id": "a7de",
+      "name": "Arima Kana",
+      "job": "Idol & Actress"
     },
     {
-      "id": "62d5"
+      "id": "62d5",
+      "name": "Shiro",
+      "job": "QA Engineer"
     },
     {
-      "id": "4949"
+      "id": "4949",
+      "name": "Akira\t",
+      "job": "DevOps Engineer"
     },
     {
-      "id": "586f"
+      "id": "7096",
+      "name": "Emilia",
+      "job": "Programmer"
     },
     {
-      "id": "7096"
+      "id": "58fc",
+      "name": "Natsuki Subaru",
+      "job": "Backend Developer"
     },
     {
-      "id": "58fc"
+      "id": "7cb6",
+      "name": "Chitanda Eru",
+      "job": "UI/UX Designer"
     },
     {
-      "id": "7cb6"
+      "id": "e370",
+      "name": "Megumi",
+      "job": "Frontend Developer"
     },
     {
-      "id": "e370"
+      "id": "b40f",
+      "name": "Okarun",
+      "job": "Cloud Engineer"
     },
     {
-      "id": "b40f"
+      "id": "6b00",
+      "name": "Jolenta",
+      "job": "Copy Writer"
     },
     {
-      "id": "6b00"
+      "id": "ac79",
+      "name": "Mikasa",
+      "job": "Mobile App Developer"
     },
     {
-      "id": "ac79"
-    },
-    {
-      "id": "66c0"
+      "id": "66c0",
+      "name": "Armin Arlert",
+      "job": "Fullstack Developer"
     }
   ]
 }
