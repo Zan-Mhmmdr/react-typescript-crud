@@ -23,7 +23,7 @@ const AddEditCharacterModal = ({ onClose, animate, editData, onSubmit }: Props) 
                     const job = formData.get('job') as string
 
                     // Kirim data yang sudah diedit
-                    onSubmit({ name, job }) // INI YANG HARUSNYA
+                    onSubmit({ name, job })
                 }} className="w-full">
                     <div className="flex flex-col space-y-4">
                         <input

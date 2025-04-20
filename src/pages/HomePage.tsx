@@ -6,6 +6,7 @@ import { useEditCharacter } from "../services/useEditCharacter"
 import AddCharacterModal from "../components/Modals/addCharacterModal"
 import AddCharacterDeleteModal from "../components/Modals/AddDeleteModal"
 import AddEditCharacterModal from "../components/Modals/AddEditCharacterModal"
+import { set } from "react-hook-form"
 
 type FormData = {
     id: string,
@@ -25,36 +26,32 @@ const HomePage = () => {
     const { mutate: deleteCharacter, } = useDeleteCharacter()
     const { mutate: editCharacter } = useEditCharacter()
 
-    const handleShowModal = () => {
-        setShowAddCharacter(true)
-        setTimeout(() => {
-            setAnimateModal(true)
-        }, 10);
-    }
-
     const handleCloseModal = () => {
         setAnimateModal(false)
         setTimeout(() => {
             setShowAddCharacter(false)
             setShowEditCharacter(false)
             setShowDeleteCharacter(false)
+            setEditData(null)
+            setConfirmDeleteId(null)
         }, 300);
     }
 
-    const handleShowModalDelete = (id: string) => {
-        setShowDeleteCharacter(true)
-        setConfirmDeleteId(id)
-        setTimeout(() => {
-            setAnimateModal(true)
-        }, 10);
-    }
+    const openModal = (type: "add" | "edit" | "delete", payload?: any) => {
+        if (type === "add") setShowAddCharacter(true)
+        if (type === "edit") {
+            setEditData(payload)
+            setShowEditCharacter(true)
+        }
 
-    const handleEditCharacter = (character: FormData) => {
-        setEditData(character.id ? character : null)
-        setShowEditCharacter(true)
+        if (type === "delete") {
+            setConfirmDeleteId(payload.id)
+            setShowDeleteCharacter(true)
+        }
+
         setTimeout(() => {
             setAnimateModal(true)
-        }, 10);
+        })
     }
 
     return (
@@ -100,22 +97,21 @@ const HomePage = () => {
                 />
             )}
 
-
             <div>
                 <div className="container w-3xl mx-auto p-4 mt-10  ">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-bold text-white">Daftar Data</h2>
-                        <button onClick={handleShowModal} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
+                        <button onClick={() => openModal("add")} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
                     </div>
 
                     <div className=" h-[500px] overflow-y-auto rounded-x">
                         <table className="min-w-full bg-white border border-gray-200  shadow-2xl">
                             <thead className="bg-gray-100 text-left sticky top-0 z-10">
                                 <tr>
-                                    <th className="px-4 py-2 border-b">id</th>
-                                    <th className="px-4 py-2 border-b">Nama</th>
-                                    <th className="px-4 py-2 border-b">Email</th>
-                                    <th className="px-4 py-2 border-b flex justify-center">Aksi</th>
+                                    <th className="px-4 py-2 border-b">Id</th>
+                                    <th className="px-4 py-2 border-b">Name</th>
+                                    <th className="px-4 py-2 border-b">Job</th>
+                                    <th className="px-4 py-2 border-b flex justify-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,9 +121,9 @@ const HomePage = () => {
                                         <td className="px-4 py-2 border-b">{character.name}</td>
                                         <td className="px-4 py-2 border-b">{character.job}</td>
                                         <td className="px-4 py-2 border-b space-x-2 flex justify-center">
-                                            <button onClick={() => handleEditCharacter(character)} className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-sm cursor-pointer">Edit</button>
+                                            <button onClick={() => openModal("edit", character)} className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-sm cursor-pointer">Edit</button>
                                             <button onClick={() => {
-                                                handleShowModalDelete(character.id)
+                                                openModal("delete", character)
                                             }} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm cursor-pointer">Hapus</button>
                                         </td>
                                     </tr>
