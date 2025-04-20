@@ -106,7 +106,7 @@ const HomePage = () => {
                 <div className="container w-3xl mx-auto p-4 mt-10  ">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-bold text-white">Daftar Data</h2>
-                        <button onClick={() => openModal("add")} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
+                        <button onClick={() => openModal(ModalType.ADD)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
                     </div>
 
                     <div className=" h-[500px] overflow-y-auto rounded-x">
@@ -126,9 +126,9 @@ const HomePage = () => {
                                         <td className="px-4 py-2 border-b">{character.name}</td>
                                         <td className="px-4 py-2 border-b">{character.job}</td>
                                         <td className="px-4 py-2 border-b space-x-2 flex justify-center">
-                                            <button onClick={() => openModal("edit", character)} className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-sm cursor-pointer">Edit</button>
+                                            <button onClick={() => openModal(ModalType.EDIT, character)} className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-sm cursor-pointer">Edit</button>
                                             <button onClick={() => {
-                                                openModal("delete", character)
+                                                openModal(ModalType.DELETE, character)
                                             }} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm cursor-pointer">Hapus</button>
                                         </td>
                                     </tr>
