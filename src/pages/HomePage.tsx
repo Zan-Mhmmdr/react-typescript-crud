@@ -3,6 +3,8 @@ import { useCreateCharacter } from "../services/useCreateCharacter"
 import { useFetchCharacter } from "../services/useFetchCharacter"
 import { useDeleteCharacter } from "../services/useDeleteCharacter"
 import { useEditCharacter } from "../services/useEditCharacter"
+import AddCharacterModal from "../components/Modals/addCharacterModal"
+import AddCharacterDeleteModal from "../components/Modals/AddDeleteModal"
 
 type FormData = {
     id: string,
@@ -34,6 +36,7 @@ const HomePage = () => {
         setTimeout(() => {
             setShowAddCharacter(false)
             setShowEditCharacter(false)
+            setShowDeleteCharacter(false)
         }, 300);
     }
 
@@ -57,55 +60,24 @@ const HomePage = () => {
         <>
             {/* Modal buat nambahin data */}
             {showAddCharacter && (
-                <div className={`fixed flex justify-center items-center h-screen w-screen top-0 left-0 bg-black/50 z-20 transition-opacity duration-300 ${animateModal ? "opacity-100" : "opacity-0"}`}>
-                    <div className={`w-1/4 gap-8 p-8 bg-white rounded shadow-lg transform transition-transform duration-300 ${animateModal ? "scale-100" : "scale-95"}`}>
-                        {/* isi modal */}
-
-                        <button className="absolute top-2 right-3 cursor-pointer hover:text-red-500" onClick={handleCloseModal}>
-                            X
-                        </button>
-                        <form onSubmit={(e) => {
-                            e.preventDefault()
-                            const formData = new FormData(e.target as HTMLFormElement)
-                            const name = formData.get('name') as string
-                            const job = formData.get('job') as string
-                            mutate({ name, job })
-                        }} className="w-full ">
-                            <div className="flex flex-col space-y-4">
-                                <input type="text" name="name" placeholder="Name" className="p-2 border border-gray-300 rounded" />
-                                <input type="text" name="job" placeholder="Job" className="p-2 border border-gray-300 rounded" />
-                                <button type="submit" className="bg-black w-full text-white font-bold px-4 py-2 rounded cursor-pointer">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <AddCharacterModal
+                    onClose={handleCloseModal}
+                    animate={animateModal}
+                    onSubmit={({ name, job }) => mutate({ name, job })}
+                />
             )}
 
             {/* Modal buat konfirmasi delete */}
             {showDeleteCharacter && (
-                <div className={`fixed inset-0 z-30 bg-black/50 flex items-center justify-center transition-opacity duration-300 ${animateModal ? "opacity-100" : "opacity-0"} `}>
-                    <div className={`bg-white rounded p-6 w-[90%] max-w-sm shadow-lg transform transition-transform duration-300  ${animateModal ? "scale-100" : "scale-95"}`}>
-                        <h2 className="text-xl font-bold mb-4">Yakin ingin menghapus?</h2>
-                        <p className="text-gray-600 mb-6">Data yang dihapus tidak bisa dikembalikan.</p>
-                        <div className="flex justify-end gap-4">
-                            <button
-                                onClick={() => setShowDeleteCharacter(false)}
-                                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 cursor-pointer"
-                            >
-                                Batal
-                            </button>
-                            <button
-                                onClick={() => {
-                                    deleteCharacter(confirmDeleteId as string);
-                                    setConfirmDeleteId(null);
-                                }}
-                                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 cursor-pointer"
-                            >
-                                Hapus
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <AddCharacterDeleteModal
+                    onClose={handleCloseModal}
+                    animate={animateModal}
+                    onSubmit={({ id }) => {
+                        deleteCharacter(id)
+                        setConfirmDeleteId(null)
+                    }}
+                    confirmDeleteId={confirmDeleteId }
+                />
             )}
 
             {/* Modal buat edit  */}
