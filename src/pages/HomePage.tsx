@@ -6,7 +6,6 @@ import { useEditCharacter } from "../services/useEditCharacter"
 import AddCharacterModal from "../components/Modals/addCharacterModal"
 import AddCharacterDeleteModal from "../components/Modals/AddDeleteModal"
 import AddEditCharacterModal from "../components/Modals/AddEditCharacterModal"
-import { set } from "react-hook-form"
 
 type FormData = {
     id: string,
@@ -26,6 +25,12 @@ const HomePage = () => {
     const { mutate: deleteCharacter, } = useDeleteCharacter()
     const { mutate: editCharacter } = useEditCharacter()
 
+    enum ModalType {
+        ADD = "add",
+        EDIT = "edit",
+        DELETE = "delete"
+    }
+
     const handleCloseModal = () => {
         setAnimateModal(false)
         setTimeout(() => {
@@ -37,7 +42,7 @@ const HomePage = () => {
         }, 300);
     }
 
-    const openModal = (type: "add" | "edit" | "delete", payload?: any) => {
+    const openModal = (type: ModalType, payload?: any) => {
         if (type === "add") setShowAddCharacter(true)
         if (type === "edit") {
             setEditData(payload)
