@@ -16,7 +16,6 @@ type FormData = {
 
 const HomePage = () => {
     const [editData, setEditData] = useState<FormData | null>(null)
-    const [animateModal, setAnimateModal] = useState(false)
     const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
     const { data } = useFetchCharacter()
     const { mutate } = useCreateCharacter()
@@ -35,7 +34,7 @@ const HomePage = () => {
     return (
         <>
             {/* Modal buat nambahin data */}
-            {showAddCharacter && (
+            {showAdd && (
                 <AddCharacterModal
                     onClose={closeModal}
                     animate={animateModal}
@@ -44,7 +43,7 @@ const HomePage = () => {
             )}
 
             {/* Modal buat konfirmasi delete */}
-            {showDeleteCharacter && (
+            {showDelete && (
                 <AddCharacterDeleteModal
                     onClose={closeModal}
                     animate={animateModal}
@@ -57,7 +56,7 @@ const HomePage = () => {
             )}
 
             {/* Modal buat edit  */}
-            {showEditCharacter && editData && (
+            {showEdit && editData && (
                 <AddEditCharacterModal
                     onClose={closeModal}
                     animate={animateModal}
@@ -70,7 +69,7 @@ const HomePage = () => {
                         })
 
                         setEditData(null)       // reset state edit
-                        handleCloseModal()      // tutup modal setelah submit
+                        closeModal()      // tutup modal setelah submit
                     }} editData={editData}
                 />
             )}
@@ -79,7 +78,7 @@ const HomePage = () => {
                 <div className="container w-3xl mx-auto p-4 mt-10  ">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-bold text-white">Daftar Data</h2>
-                        <button onClick={() => openModal(ModalType.ADD)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
+                        <button onClick={() => openModal("add", null)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
                     </div>
 
                     <div className=" h-[500px] overflow-y-auto rounded-x">
