@@ -6,6 +6,7 @@ import { useEditCharacter } from "../services/useEditCharacter"
 import AddCharacterModal from "../components/Modals/AddCharacterModal"
 import AddCharacterDeleteModal from "../components/Modals/AddDeleteModal"
 import AddEditCharacterModal from "../components/Modals/AddEditCharacterModal"
+import { useModalStore } from "../stores/ModalStore"
 
 type FormData = {
     id: string,
@@ -14,9 +15,6 @@ type FormData = {
 }
 
 const HomePage = () => {
-    const [showAddCharacter, setShowAddCharacter] = useState(false)
-    const [showDeleteCharacter, setShowDeleteCharacter] = useState(false)
-    const [showEditCharacter, setShowEditCharacter] = useState(false)
     const [editData, setEditData] = useState<FormData | null>(null)
     const [animateModal, setAnimateModal] = useState(false)
     const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
@@ -25,46 +23,21 @@ const HomePage = () => {
     const { mutate: deleteCharacter, } = useDeleteCharacter()
     const { mutate: editCharacter } = useEditCharacter()
 
+    const { animateModal, closeModal, confirmDeleteId, editData, openModal, showAdd, showDelete, showEdit } = useModalStore()
+
     enum ModalType {
         ADD = "add",
         EDIT = "edit",
         DELETE = "delete"
     }
 
-    const handleCloseModal = () => {
-        setAnimateModal(false)
-        setTimeout(() => {
-            setShowAddCharacter(false)
-            setShowEditCharacter(false)
-            setShowDeleteCharacter(false)
-            setEditData(null)
-            setConfirmDeleteId(null)
-        }, 300);
-    }
-
-    const openModal = (type: ModalType, payload?: any) => {
-        if (type === "add") setShowAddCharacter(true)
-        if (type === "edit") {
-            setEditData(payload)
-            setShowEditCharacter(true)
-        }
-
-        if (type === "delete") {
-            setConfirmDeleteId(payload.id)
-            setShowDeleteCharacter(true)
-        }
-
-        setTimeout(() => {
-            setAnimateModal(true)
-        })
-    }
 
     return (
         <>
             {/* Modal buat nambahin data */}
             {showAddCharacter && (
                 <AddCharacterModal
-                    onClose={handleCloseModal}
+                    onClose={closeModal}
                     animate={animateModal}
                     onSubmit={({ name, job }) => mutate({ name, job })}
                 />
@@ -73,7 +46,7 @@ const HomePage = () => {
             {/* Modal buat konfirmasi delete */}
             {showDeleteCharacter && (
                 <AddCharacterDeleteModal
-                    onClose={handleCloseModal}
+                    onClose={closeModal}
                     animate={animateModal}
                     onSubmit={({ id }) => {
                         deleteCharacter(id)
@@ -86,8 +59,8 @@ const HomePage = () => {
             {/* Modal buat edit  */}
             {showEditCharacter && editData && (
                 <AddEditCharacterModal
+                    onClose={closeModal}
                     animate={animateModal}
-                    onClose={handleCloseModal}
                     onSubmit={({ name, job }) => {
                         if (!editData) return
 
