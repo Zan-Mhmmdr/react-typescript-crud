@@ -3,7 +3,7 @@ import { useCreateCharacter } from "../services/useCreateCharacter"
 import { useFetchCharacter } from "../services/useFetchCharacter"
 import { useDeleteCharacter } from "../services/useDeleteCharacter"
 import { useEditCharacter } from "../services/useEditCharacter"
-import AddCharacterModal from "../components/Modals/addCharacterModal"
+import AddCharacterModal from "../components/Modals/AddCharacterModal"
 import AddCharacterDeleteModal from "../components/Modals/AddDeleteModal"
 import AddEditCharacterModal from "../components/Modals/AddEditCharacterModal"
 
