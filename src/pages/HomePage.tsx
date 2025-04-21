@@ -1,11 +1,11 @@
-import { useState } from "react"
 import { useCreateCharacter } from "../services/useCreateCharacter"
 import { useFetchCharacter } from "../services/useFetchCharacter"
 import { useDeleteCharacter } from "../services/useDeleteCharacter"
 import { useEditCharacter } from "../services/useEditCharacter"
-import AddCharacterModal from "../components/Modals/addCharacterModal"
+import AddCharacterModal from "../components/Modals/AddCharacterModal"
 import AddCharacterDeleteModal from "../components/Modals/AddDeleteModal"
 import AddEditCharacterModal from "../components/Modals/AddEditCharacterModal"
+import { useModalStore } from "../stores/ModalStore"
 
 type FormData = {
     id: string,
@@ -14,16 +14,12 @@ type FormData = {
 }
 
 const HomePage = () => {
-    const [showAddCharacter, setShowAddCharacter] = useState(false)
-    const [showDeleteCharacter, setShowDeleteCharacter] = useState(false)
-    const [showEditCharacter, setShowEditCharacter] = useState(false)
-    const [editData, setEditData] = useState<FormData | null>(null)
-    const [animateModal, setAnimateModal] = useState(false)
-    const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
     const { data } = useFetchCharacter()
     const { mutate } = useCreateCharacter()
     const { mutate: deleteCharacter, } = useDeleteCharacter()
     const { mutate: editCharacter } = useEditCharacter()
+
+    const { animateModal, closeModal, confirmDeleteId, editData, openModal, showAdd, showDelete, showEdit } = useModalStore()
 
     enum ModalType {
         ADD = "add",
@@ -31,63 +27,34 @@ const HomePage = () => {
         DELETE = "delete"
     }
 
-    const handleCloseModal = () => {
-        setAnimateModal(false)
-        setTimeout(() => {
-            setShowAddCharacter(false)
-            setShowEditCharacter(false)
-            setShowDeleteCharacter(false)
-            setEditData(null)
-            setConfirmDeleteId(null)
-        }, 300);
-    }
-
-    const openModal = (type: ModalType, payload?: any) => {
-        if (type === "add") setShowAddCharacter(true)
-        if (type === "edit") {
-            setEditData(payload)
-            setShowEditCharacter(true)
-        }
-
-        if (type === "delete") {
-            setConfirmDeleteId(payload.id)
-            setShowDeleteCharacter(true)
-        }
-
-        setTimeout(() => {
-            setAnimateModal(true)
-        })
-    }
-
     return (
         <>
             {/* Modal buat nambahin data */}
-            {showAddCharacter && (
+            {showAdd && (
                 <AddCharacterModal
-                    onClose={handleCloseModal}
+                    onClose={closeModal}
                     animate={animateModal}
                     onSubmit={({ name, job }) => mutate({ name, job })}
                 />
             )}
 
             {/* Modal buat konfirmasi delete */}
-            {showDeleteCharacter && (
+            {showDelete && (
                 <AddCharacterDeleteModal
-                    onClose={handleCloseModal}
+                    onClose={closeModal}
                     animate={animateModal}
                     onSubmit={({ id }) => {
                         deleteCharacter(id)
-                        setConfirmDeleteId(null)
                     }}
                     confirmDeleteId={confirmDeleteId}
                 />
             )}
 
             {/* Modal buat edit  */}
-            {showEditCharacter && editData && (
+            {showEdit && editData && (
                 <AddEditCharacterModal
+                    onClose={closeModal}
                     animate={animateModal}
-                    onClose={handleCloseModal}
                     onSubmit={({ name, job }) => {
                         if (!editData) return
 
@@ -95,9 +62,7 @@ const HomePage = () => {
                             characterID: editData.id,
                             payload: { name, job }
                         })
-
-                        setEditData(null)       // reset state edit
-                        handleCloseModal()      // tutup modal setelah submit
+                        closeModal()      // tutup modal setelah submit
                     }} editData={editData}
                 />
             )}
@@ -106,7 +71,7 @@ const HomePage = () => {
                 <div className="container w-3xl mx-auto p-4 mt-10  ">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-bold text-white">Daftar Data</h2>
-                        <button onClick={() => openModal(ModalType.ADD)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
+                        <button onClick={() => openModal("add", null)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Tambah Data</button>
                     </div>
 
                     <div className=" h-[500px] overflow-y-auto rounded-x">
