@@ -13,7 +13,7 @@ type ModalState = {
     animateModal: boolean
     editData: FormData | null
     confirmDeleteId: string | null
-    openModal: (type: "add" | "edit" | "delete", payLoad: any) => void
+    openModal: (type: "add" | "edit" | "delete", payLoad?: any) => void
     closeModal: () => void
 }
 
@@ -25,7 +25,7 @@ export const useModalStore = create<ModalState>((set) => ({
     editData: null,
     confirmDeleteId: null,
 
-    openModal: (type, payload?) => {
+    openModal: (type, payload) => {
         if (type === "add") set({ showAdd: true })
         if (type === "edit") set({ showEdit: true, editData: payload })
         if (type === "delete") set({ showDelete: true, confirmDeleteId: payload.id })

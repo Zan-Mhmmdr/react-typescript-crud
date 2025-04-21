@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useCreateCharacter } from "../services/useCreateCharacter"
 import { useFetchCharacter } from "../services/useFetchCharacter"
 import { useDeleteCharacter } from "../services/useDeleteCharacter"
@@ -15,8 +14,6 @@ type FormData = {
 }
 
 const HomePage = () => {
-    const [editData, setEditData] = useState<FormData | null>(null)
-    const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
     const { data } = useFetchCharacter()
     const { mutate } = useCreateCharacter()
     const { mutate: deleteCharacter, } = useDeleteCharacter()
@@ -29,7 +26,6 @@ const HomePage = () => {
         EDIT = "edit",
         DELETE = "delete"
     }
-
 
     return (
         <>
@@ -49,7 +45,6 @@ const HomePage = () => {
                     animate={animateModal}
                     onSubmit={({ id }) => {
                         deleteCharacter(id)
-                        setConfirmDeleteId(null)
                     }}
                     confirmDeleteId={confirmDeleteId}
                 />
@@ -67,8 +62,6 @@ const HomePage = () => {
                             characterID: editData.id,
                             payload: { name, job }
                         })
-
-                        setEditData(null)       // reset state edit
                         closeModal()      // tutup modal setelah submit
                     }} editData={editData}
                 />
