@@ -78,7 +78,6 @@ const EmployeesPage = () => {
         refetch()
     }
 
-
     return (
         <div>
             <h2>List Character: </h2>

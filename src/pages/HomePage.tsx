@@ -62,6 +62,7 @@ const HomePage = () => {
                             characterID: editData.id,
                             payload: { name, job }
                         })
+
                         closeModal()      // tutup modal setelah submit
                     }} editData={editData}
                 />
