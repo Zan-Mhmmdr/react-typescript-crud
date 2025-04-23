@@ -39,7 +39,6 @@ const AddCharacterModal = ({ animate, onClose, onSubmit }: props) => {
                         <input {...register("name", { required: true })} type="text" name="name" placeholder="Name" className="p-2 border border-gray-300 rounded" />
                         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                         <input {...register("job")} type="text" name="job" placeholder="Job" className="p-2 border border-gray-300 rounded" />
-                        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                         <button type="submit" className="bg-black w-full text-white font-bold px-4 py-2 rounded cursor-pointer">Submit</button>
                     </div>
                 </form>

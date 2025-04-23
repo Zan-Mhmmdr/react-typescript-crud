@@ -1,3 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 type Props = {
     onClose: () => void
     animate: boolean
@@ -5,8 +9,23 @@ type Props = {
     editData: { id: string; name: string; job: string }
 }
 
+const editFormSchema = z.object({
+    name: z.string().min(2, { message: "Nama minimal 2 karakter" }),
+    job: z.string().optional(),
+})
+
+type EditFormSchema = z.infer<typeof editFormSchema>
 
 const AddEditCharacterModal = ({ onClose, animate, editData, onSubmit }: Props) => {
+    const { register, handleSubmit, formState: { errors } } = useForm<EditFormSchema>({
+        resolver: zodResolver(editFormSchema)
+    })
+
+    const handleFormSubmit = (data: EditFormSchema) => {
+        onSubmit(data)
+        console.log("success")
+    }
+
     return (
 
         <div className={`fixed flex justify-center items-center h-screen w-screen top-0 left-0 bg-black/50 z-20 transition-opacity duration-300 ${animate ? "opacity-100" : "opacity-0"}`}>
@@ -16,24 +35,20 @@ const AddEditCharacterModal = ({ onClose, animate, editData, onSubmit }: Props) 
                     X
                 </button>
 
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    const formData = new FormData(e.target as HTMLFormElement)
-                    const name = formData.get('name') as string
-                    const job = formData.get('job') as string
-
-                    // Kirim data yang sudah diedit
-                    onSubmit({ name, job })
-                }} className="w-full">
+                <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full">
                     <div className="flex flex-col space-y-4">
                         <input
+                            {...register("name", { required: true })}
                             type="text"
                             name="name"
                             defaultValue={editData.name}
                             placeholder="Name"
                             className="p-2 border border-gray-300 rounded"
                         />
+                        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+
                         <input
+                            {...register("job")}
                             type="text"
                             name="job"
                             defaultValue={editData.job}
