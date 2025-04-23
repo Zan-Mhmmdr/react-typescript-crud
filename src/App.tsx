@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router"
 import HomePage from "./pages/HomePage"
 import FormPage from "./pages/FormPage"
-import RHFPage from "./pages/RHFPage"
 import HomeWork from "./pages/HomeWork"
 import FormData from "./pages/FormData"
 import Component1 from "./components/Component1"
@@ -15,7 +14,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/form" element={<FormPage />} />
-        <Route path="/rhf" element={<RHFPage />} />
         <Route path="/homework" element={<HomeWork />} />
         <Route path="/formdata" element={<FormData />} />
         <Route path="/count" element={<Component1 />} />
